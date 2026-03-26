@@ -234,7 +234,6 @@ const Hero = () => {
       {/* Status Indicator */}
       <div className="absolute top-32 left-8 flex items-center gap-3">
         <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
-        <span className="font-label text-[10px] text-secondary uppercase tracking-[0.3em] font-bold">System Online: v2.5.0</span>
       </div>
 
       {/* Side Rails */}
@@ -291,7 +290,7 @@ const About = () => (
             <div className="absolute -inset-4 bg-primary/20 -skew-y-3 group-hover:skew-y-0 transition-transform duration-500"></div>
             <div className="aspect-[4/5] bg-surface-container-high overflow-hidden rounded-none border-2 border-white/10 relative z-10">
               <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEATFAuGXfWf0-Z2hWIpIvo32KlWFcTlbzvHMLUrX3bsCud3W2_l9KJ2A6jnt6mMksViFUTjdTbdwCFiupMX5TjDGpomuMxPEnSB2cMo0W71JfIm1ydta6I-aPqUaxH8oeQ1LajiOH5X2EWbmZoV9EfwvZCImAu42eH_QAFeIJadRwgq0tgT8b1FMVqjGC3MS2TIBRHLib9gu0KiJoND7HQaTSScBR94ocUat3s68p9MaXV_Rx3sdzJ_aF87yct3hodGAPPEMnWDg" 
+                src="assets/images/mohamed_emam.jpg" 
                 alt="Mohamed Emam" 
                 className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"
