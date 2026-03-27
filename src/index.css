@@ -30,18 +30,19 @@
   --color-on-surface: #ffffff;
   --color-on-surface-variant: #adaaaa;
 
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  @keyframes slamIn {
-    0% { transform: scale(2) translateY(-100px); opacity: 0; }
-    100% { transform: scale(1) translateY(0); opacity: 1; }
-  }
-
   --animate-marquee: marquee 30s linear infinite;
   --animate-slam-in: slamIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --shadow-brutal: 4px 4px 0px 0px var(--color-primary);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes slamIn {
+  0% { transform: scale(2) translateY(-100px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 @layer base {
@@ -137,7 +138,7 @@
 }
 
 .btn-brutal:hover {
-  @apply shadow-[4px_4px_0px_0px_rgba(163,166,255,1)] -translate-x-[2px] -translate-y-[2px];
+  @apply shadow-brutal -translate-x-[2px] -translate-y-[2px];
 }
 
 .marquee-container {
