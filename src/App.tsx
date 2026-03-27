@@ -49,14 +49,10 @@ const Navbar = () => (
             {item}
           </a>
         ))}
-      <a
-        href="/assets/cv/Mohamed_Emam.pdf"  // path to your PDF file
-        download="Mohamed_Emam.pdf"  // name for the downloaded file
-        className="bg-primary text-on-primary font-headline font-bold px-4 py-2 btn-brutal flex items-center gap-2 text-xs border border-white/10"
-      >
-        <Download size={16} />
-        RESUME
-      </a>
+        <button className="bg-primary text-on-primary font-headline font-bold px-4 py-2 btn-brutal flex items-center gap-2 text-xs border border-white/10">
+          <Download size={16} />
+          RESUME
+        </button>
       </div>
       <div className="md:hidden">
         <Menu className="text-white" />
@@ -87,7 +83,7 @@ const Hero = () => {
           </h1>
 
           <p className="font-body text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-            Engineering high-performance <span className="text-white">LLM ecosystems</span> and <span className="text-secondary/80">Computer Vision</span> systems. Transforming complex data into autonomous, scalable solutions.
+            Engineering high-performance <span className="text-white">LLM ecosystems</span> and <span className="text-white">Computer Vision</span> systems. Transforming complex data into autonomous, scalable solutions.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-md">
@@ -140,7 +136,7 @@ const About = () => {
             <div className="absolute -inset-4 bg-primary/20 -skew-y-3 group-hover:skew-y-0 transition-transform duration-500"></div>
             <div className="aspect-[4/5] bg-surface-container-high overflow-hidden rounded-none border-2 border-white/10 relative z-10">
               <img 
-                src="/assets/images/mohamed_emam.jpg" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEATFAuGXfWf0-Z2hWIpIvo32KlWFcTlbzvHMLUrX3bsCud3W2_l9KJ2A6jnt6mMksViFUTjdTbdwCFiupMX5TjDGpomuMxPEnSB2cMo0W71JfIm1ydta6I-aPqUaxH8oeQ1LajiOH5X2EWbmZoV9EfwvZCImAu42eH_QAFeIJadRwgq0tgT8b1FMVqjGC3MS2TIBRHLib9gu0KiJoND7HQaTSScBR94ocUat3s68p9MaXV_Rx3sdzJ_aF87yct3hodGAPPEMnWDg" 
                 alt="Mohamed Emam" 
                 className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"
