@@ -49,10 +49,14 @@ const Navbar = () => (
             {item}
           </a>
         ))}
-        <button className="bg-primary text-on-primary font-headline font-bold px-4 py-2 btn-brutal flex items-center gap-2 text-xs border border-white/10">
-          <Download size={16} />
-          RESUME
-        </button>
+        <a 
+  href="/assets/Mohamed_Emam.pdf" 
+  download="Mohamed_Emam_Resume.pdf" 
+  className="bg-primary text-on-primary font-headline font-bold px-4 py-2 btn-brutal flex items-center gap-2 text-xs border border-white/10"
+>
+  <Download size={16} />
+  RESUME
+</a>
       </div>
       <div className="md:hidden">
         <Menu className="text-white" />
@@ -136,14 +140,14 @@ const About = () => {
             <div className="absolute -inset-4 bg-primary/20 -skew-y-3 group-hover:skew-y-0 transition-transform duration-500"></div>
             <div className="aspect-[4/5] bg-surface-container-high overflow-hidden rounded-none border-2 border-white/10 relative z-10">
               <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEATFAuGXfWf0-Z2hWIpIvo32KlWFcTlbzvHMLUrX3bsCud3W2_l9KJ2A6jnt6mMksViFUTjdTbdwCFiupMX5TjDGpomuMxPEnSB2cMo0W71JfIm1ydta6I-aPqUaxH8oeQ1LajiOH5X2EWbmZoV9EfwvZCImAu42eH_QAFeIJadRwgq0tgT8b1FMVqjGC3MS2TIBRHLib9gu0KiJoND7HQaTSScBR94ocUat3s68p9MaXV_Rx3sdzJ_aF87yct3hodGAPPEMnWDg" 
+                src="/assets/images/mohamed_emam.jpg" 
                 alt="Mohamed Emam" 
                 className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"
               />
             </div>
             <div className="absolute -bottom-10 -right-10 bg-white text-black p-10 z-20 shadow-2xl">
-              <div className="font-headline text-6xl font-black leading-none">05</div>
+              <div className="font-headline text-6xl font-black leading-none">03</div>
               <div className="font-label text-[10px] uppercase tracking-[0.3em] font-bold mt-2">Years of Core Engineering</div>
             </div>
           </div>
