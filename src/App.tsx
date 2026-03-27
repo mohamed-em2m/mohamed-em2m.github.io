@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
 import { 
   Terminal, 
   Brain, 
@@ -25,14 +25,22 @@ import {
 
 // --- Components ---
 
+const InteractiveText = ({ text, className }: { text: string; className?: string }) => {
+  return (
+    <span className={className}>
+      {text}
+    </span>
+  );
+};
+
 const Navbar = () => (
   <nav className="fixed top-0 w-full z-50 glass-nav border-b border-outline-variant/10">
     <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-8 h-20">
-      <div className="text-xl font-black text-white tracking-tighter uppercase font-headline">
-        Mohamed Emam
+      <div className="text-xl font-light text-white tracking-tight font-serif">
+        AI
       </div>
       <div className="hidden md:flex items-center space-x-8">
-        {["Experience", "Projects", "Skills", "Contact"].map((item) => (
+        {["Experience", "Projects", "Skills", "OpenSource", "Education", "Certifications", "Contact"].map((item) => (
           <a 
             key={item}
             href={`#${item.toLowerCase()}`}
@@ -54,113 +62,46 @@ const Navbar = () => (
 );
 
 const Hero = () => {
-  const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end start"]
-  });
-
-  const railY1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const railY2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
   return (
-    <section ref={targetRef} className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-8 overflow-hidden technical-gradient bg-surface">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
-      
-      {/* Decorative Grid Lines */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-px h-full bg-outline-variant/10"></div>
-        <div className="absolute top-0 right-1/4 w-px h-full bg-outline-variant/10"></div>
-        <div className="absolute top-1/3 left-0 w-full h-px bg-outline-variant/10"></div>
-        <div className="absolute bottom-1/3 left-0 w-full h-px bg-outline-variant/10"></div>
+    <section 
+      className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 md:px-8 bg-surface overflow-hidden"
+    >
+      {/* Subtle Background Gradient */}
+      <div className="absolute inset-0 pointer-events-none opacity-30">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-primary/10 rounded-full blur-[120px]"></div>
       </div>
 
       <motion.div 
-        style={{ opacity }}
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="z-10 max-w-7xl w-full relative"
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="z-10 max-w-4xl w-full relative"
       >
         <div className="flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="inline-block px-6 py-2 mb-12 border border-primary/30 bg-primary/5 backdrop-blur-sm rounded-none relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-primary/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-            <span className="font-label text-primary text-xs tracking-[0.4em] uppercase font-bold relative z-10">Architecting Intelligence</span>
-          </motion.div>
+          <h1 className="font-serif font-medium text-6xl md:text-8xl lg:text-9xl tracking-tight text-white mb-8">
+            Mohamed Emam
+          </h1>
 
-          <div className="relative mb-8">
-            <h1 className="font-headline font-black text-7xl md:text-9xl lg:text-[14rem] tracking-tighter leading-[0.8] uppercase select-none">
-              <span className="block text-white animate-slam-in">Mohamed</span>
-              <span className="block text-outline-variant/30 -mt-2 md:-mt-6 lg:-mt-10 stroke-text animate-slam-in delay-200">Emam</span>
-            </h1>
-            <div className="absolute -top-4 -right-4 md:-top-8 md:-right-8 bg-secondary text-on-secondary font-label text-[10px] md:text-xs px-4 py-2 uppercase tracking-widest font-black rotate-12 shadow-xl">
-              AI ENGINEER v2.0
-            </div>
-          </div>
+          <p className="font-body text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+            Engineering high-performance <span className="text-white">LLM ecosystems</span> and <span className="text-secondary/80">Computer Vision</span> systems. Transforming complex data into autonomous, scalable solutions.
+          </p>
 
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="font-body text-on-surface-variant text-lg md:text-2xl max-w-3xl mx-auto mb-16 leading-relaxed px-4"
-          >
-            Engineering high-performance <span className="text-white font-bold">LLM ecosystems</span> and <span className="text-white font-bold">Computer Vision</span> systems. Transforming complex data into autonomous, scalable solutions.
-          </motion.p>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-md px-6">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-md">
             <a 
               href="#projects"
-              className="group relative bg-primary text-on-primary font-headline font-bold px-6 py-3 btn-brutal transition-all hover:bg-primary-fixed uppercase tracking-tighter text-base overflow-hidden"
+              className="px-8 py-4 bg-primary text-on-primary font-medium rounded-full transition-all hover:bg-primary-fixed hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
             >
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Projects <ArrowRight className="group-hover:translate-x-2 transition-transform" size={18} />
-              </span>
-              <div className="absolute inset-0 bg-white/20 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300"></div>
+              View Projects
             </a>
             <a 
               href="#contact"
-              className="group border-2 border-outline-variant bg-transparent text-white font-headline font-bold px-6 py-3 btn-brutal transition-all hover:bg-white hover:text-black uppercase tracking-tighter text-base"
+              className="px-8 py-4 border border-outline-variant text-on-surface font-medium rounded-full transition-all hover:bg-white/5 hover:border-white/20 active:scale-95"
             >
-              Contact
+              Get in Touch
             </a>
           </div>
         </div>
       </motion.div>
-
-      {/* Status Indicator */}
-      <div className="absolute top-32 left-8 flex items-center gap-3">
-        <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
-        <span className="font-label text-[10px] text-secondary uppercase tracking-[0.3em] font-bold">System Online: v2.5.0</span>
-      </div>
-
-      {/* Side Rails */}
-      <motion.div style={{ y: railY1 }} className="absolute left-8 bottom-20 hidden lg:block">
-        <div className="writing-vertical-rl text-[10px] font-label text-outline-variant uppercase tracking-[0.5em] opacity-50">
-          EST. 2019 — CAIRO, EGYPT
-        </div>
-      </motion.div>
-      <motion.div style={{ y: railY2 }} className="absolute right-8 bottom-20 hidden lg:block">
-        <div className="writing-vertical-rl text-[10px] font-label text-outline-variant uppercase tracking-[0.5em] opacity-50">
-          SCALABLE • AUTONOMOUS • INTELLIGENT
-        </div>
-      </motion.div>
-
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-20"
-      >
-        <div className="w-px h-20 bg-gradient-to-b from-primary to-transparent"></div>
-      </motion.div>
-
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-surface-container-low geometric-divider"></div>
     </section>
   );
 };
@@ -177,8 +118,9 @@ const Marquee = () => (
   </div>
 );
 
-const About = () => (
-  <section className="py-40 bg-surface relative overflow-hidden" id="about">
+const About = () => {
+  return (
+    <section className="py-40 bg-surface relative overflow-hidden" id="about">
     {/* Skewed Background Element */}
     <div className="absolute top-0 right-0 w-1/2 h-full bg-surface-container-low -skew-x-12 translate-x-1/4 pointer-events-none"></div>
 
@@ -194,7 +136,7 @@ const About = () => (
             <div className="absolute -inset-4 bg-primary/20 -skew-y-3 group-hover:skew-y-0 transition-transform duration-500"></div>
             <div className="aspect-[4/5] bg-surface-container-high overflow-hidden rounded-none border-2 border-white/10 relative z-10">
               <img 
-                src="/assets/images/mohamed_emam.jpg" 
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEATFAuGXfWf0-Z2hWIpIvo32KlWFcTlbzvHMLUrX3bsCud3W2_l9KJ2A6jnt6mMksViFUTjdTbdwCFiupMX5TjDGpomuMxPEnSB2cMo0W71JfIm1ydta6I-aPqUaxH8oeQ1LajiOH5X2EWbmZoV9EfwvZCImAu42eH_QAFeIJadRwgq0tgT8b1FMVqjGC3MS2TIBRHLib9gu0KiJoND7HQaTSScBR94ocUat3s68p9MaXV_Rx3sdzJ_aF87yct3hodGAPPEMnWDg" 
                 alt="Mohamed Emam" 
                 className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"
@@ -218,9 +160,9 @@ const About = () => (
             <span className="font-label text-primary uppercase tracking-[0.5em] text-xs font-bold">The Philosophy</span>
           </div>
           
-          <h3 className="font-headline text-5xl md:text-7xl font-black mb-12 tracking-tighter uppercase leading-[0.9]">
-            Systematic <br />
-            <span className="text-outline-variant/40">Innovation.</span>
+          <h3 className="font-serif text-5xl md:text-7xl font-light mb-12 tracking-tight leading-[1.1]">
+            <InteractiveText text="Systematic" className="block" />
+            <InteractiveText text="Innovation." className="block text-outline-variant/40 italic" />
           </h3>
           
           <div className="space-y-8 max-w-2xl">
@@ -250,11 +192,10 @@ const About = () => (
           </div>
         </motion.div>
       </div>
-
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-surface geometric-divider-reverse"></div>
     </div>
   </section>
 );
+};
 
 const Skills = () => {
   const categories = [
@@ -283,39 +224,48 @@ const Skills = () => {
       size: "sm"
     },
     {
+      title: "Frontend",
+      icon: <Layout className="text-primary" size={24} />,
+      skills: ["React", "HTML5", "CSS3", "Bootstrap", "Responsive Design"],
+      size: "sm"
+    },
+    {
+      title: "Databases",
+      icon: <Database className="text-primary" size={24} />,
+      skills: ["PostgreSQL", "MongoDB", "Neo4j", "SQL", "BigQuery", "Firestore"],
+      size: "sm"
+    },
+    {
       title: "Cloud & DevOps",
       icon: <Cloud className="text-primary" size={24} />,
       skills: ["GCP", "Azure", "Docker", "GitHub Actions", "Git", "MLOps"],
       size: "sm"
     },
     {
+      title: "Linux & Systems",
+      icon: <Terminal className="text-primary" size={24} />,
+      skills: ["Linux Admin", "Bash Automation", "SSH", "Cron", "Process Management"],
+      size: "sm"
+    },
+    {
       title: "Specializations",
-      icon: <Database className="text-primary" size={24} />,
-      skills: ["Knowledge Graph RAG", "Computer Vision", "Web Scraping", "Automation", "browser-use"],
+      icon: <Brain className="text-primary" size={24} />,
+      skills: ["Knowledge Graph RAG", "Computer Vision", "Web Scraping", "Automation", "Data Visualization"],
       size: "sm"
     }
   ];
 
   return (
     <section className="py-32 bg-surface relative overflow-hidden" id="skills">
-      {/* Floating Code Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="floating-code top-[10%] left-0" style={{ animationDelay: '0s' }}>import torch; model = torch.nn.Sequential(torch.nn.Linear(128, 64), torch.nn.ReLU())</div>
-        <div className="floating-code top-[30%] left-0" style={{ animationDelay: '5s' }}>const response = await openai.chat.completions.create(&#123; model: "gpt-4", messages: [...] &#125;)</div>
-        <div className="floating-code top-[50%] left-0" style={{ animationDelay: '2s' }}>def optimize_rag(query): vector_store.similarity_search(query, k=5)</div>
-        <div className="floating-code top-[70%] left-0" style={{ animationDelay: '8s' }}>docker-compose up --build -d # deploying multi-agent swarm</div>
-        <div className="floating-code top-[90%] left-0" style={{ animationDelay: '3s' }}>SELECT * FROM embeddings WHERE cosine_similarity(v1, v2) &gt; 0.85</div>
-      </div>
-
-      {/* Background Grid */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>
-
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
           <div className="relative">
             <div className="absolute -left-8 top-0 w-1 h-full bg-primary"></div>
             <span className="font-label text-secondary uppercase tracking-[0.4em] text-xs font-bold block mb-4">The Toolkit</span>
-            <h2 className="font-headline text-6xl md:text-8xl font-black tracking-tighter uppercase leading-none">Technical <br />Stack</h2>
+            <h2 className="font-serif text-5xl md:text-7xl font-light tracking-tight leading-none">
+              <InteractiveText text="Technical" className="block" />
+              <InteractiveText text="Stack" className="block text-outline-variant/40 italic" />
+            </h2>
           </div>
           <p className="max-w-xs text-on-surface-variant font-body text-sm leading-relaxed border-l border-outline-variant/30 pl-6">
             A curated selection of tools and frameworks prioritized for high-concurrency and data-intensive AI applications.
@@ -334,13 +284,6 @@ const Skills = () => {
                 cat.size === 'lg' ? 'md:col-span-2 lg:col-span-3' : 'md:col-span-2 lg:col-span-2'
               }`}
             >
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-30 transition-opacity">
-                <span className="font-headline text-6xl font-black">{idx + 1}</span>
-              </div>
-              <div className="absolute top-4 left-10 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
-                <span className="font-label text-[8px] text-secondary uppercase tracking-widest font-bold">Active Module</span>
-              </div>
               <div className="mb-8 relative z-10 mt-4">
                 <div className="w-12 h-12 bg-primary/5 flex items-center justify-center border border-primary/20 group-hover:bg-primary group-hover:text-on-primary transition-all duration-500">
                   {cat.icon}
@@ -368,29 +311,29 @@ const Experience = () => {
       period: "JUN 2026 — PRESENT",
       company: "COA Holding",
       role: "AI Engineer",
-      description: "Designing and implementing autonomous agents to optimize Facebook Ads campaigns. Automating monitoring and decision-making (budget adjustments, performance evaluation) based on predefined KPIs.",
-      tags: ["ADS OPTIMIZATION", "AUTONOMOUS AGENTS", "KPI"]
+      description: "Designed and implemented an autonomous agent to optimize Facebook Ads campaigns by dynamically selecting the best-performing configurations. Automated monitoring and decision-making (budget adjustments, performance evaluation) based on predefined KPIs.",
+      tags: ["ADS OPTIMIZATION", "AUTONOMOUS AGENTS", "KPI", "FACEBOOK API"]
     },
     {
       period: "MAY 2025 — DEC 2025",
       company: "Deeb Realties",
       role: "AI Engineer",
-      description: "Deployed multi-platform chatbots (WhatsApp, Instagram, Messenger) integrated with Odoo CRM. Automated inquiries, bookings, and complaints, deployed on GCP with 99.9% uptime.",
-      tags: ["CHATBOTS", "ODOO", "GCP"]
+      description: "Deployed multi-platform chatbot across WhatsApp, Instagram, and Facebook Messenger. Automated customer inquiries, appointment booking, and complaint management. Integrated with Odoo CRM for seamless administrative workflow.",
+      tags: ["CHATBOTS", "ODOO", "GCP", "CRM INTEGRATION"]
     },
     {
       period: "OCT 2024 — JUL 2025",
       company: "Vrtualize",
       role: "AI Engineer",
-      description: "Developed AI travel recommendation system and image-based location search. Optimized performance to 10s response time and integrated multiple real-time travel APIs.",
-      tags: ["TRAVEL AI", "COMPUTER VISION", "API INTEGRATION"]
+      description: "Developed AI-powered travel recommendation system for flights, hotels, and destinations. Implemented image-based location search using computer vision techniques. Optimized system performance achieving 10-second average response time.",
+      tags: ["TRAVEL AI", "COMPUTER VISION", "API INTEGRATION", "RAG"]
     },
     {
       period: "2023 — 2024",
       company: "Freelance",
       role: "AI Engineer",
       description: "Built real-time face emotion detection (CNN), automated Q&A dataset generators (LLM), and speech command recognition systems (LSTM/CNN).",
-      tags: ["CNN", "LSTM", "LLM"]
+      tags: ["CNN", "LSTM", "LLM", "SPEECH RECOGNITION"]
     }
   ];
 
@@ -402,7 +345,9 @@ const Experience = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="flex flex-col items-center mb-32">
           <span className="font-label text-primary uppercase tracking-[0.5em] text-xs font-bold mb-6">The Journey</span>
-          <h2 className="font-headline text-6xl md:text-9xl font-black tracking-tighter uppercase text-center leading-none">Trajectory</h2>
+          <h2 className="font-serif text-5xl md:text-8xl font-light tracking-tight text-center leading-none">
+            <InteractiveText text="Trajectory" />
+          </h2>
         </div>
 
         <div className="relative">
@@ -456,17 +401,25 @@ const Projects = () => {
       title: "Real-Time Voice Agent with Avatar",
       milestone: "Latency Milestone",
       metric: "< 2s Latency",
-      description: "Built interactive voice-driven agent with real-time avatar synchronization. Leveraged Gemini Live API and optimized Float framework for 25 fps rendering.",
+      description: "Built interactive voice-driven agent system with real-time avatar achieving sub-2s latency. Integrated Gemini Live API for natural conversational AI with synchronized visual feedback.",
       tech: ["Gemini Live", "WebSocket", "Float", "Audio Processing"],
       image: "https://images.unsplash.com/photo-1589254065878-42c9da997008?auto=format&fit=crop&q=80&w=800"
     },
     {
-      title: "Real-Time AI Search Engine",
+      title: "Real-Time AI Search & Retrieval Engine",
       milestone: "Performance Record",
       metric: "< 4s Response",
-      description: "High-concurrency C++ scraping engine integrated with live Google Search for real-time AI synthesis. Outperforms standard Python-based RAG solutions.",
+      description: "High-concurrency C++ scraping engine integrated with live Google Search for real-time AI synthesis. Extracts data from 20+ websites in under 4 seconds.",
       tech: ["C++", "Gumbo", "cURL", "Google Search API"],
       image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "Maika App - AI Travel Assistant",
+      milestone: "Full-Stack Deployment",
+      metric: "10s Avg Response",
+      description: "Intelligent travel assistant with personalized recommendations and image-based location search using RAG and Vector search. Built Rust-powered web search tool.",
+      tech: ["LLM", "LangGraph", "FastAPI", "GCP", "Azure"],
+      image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&q=80&w=800"
     },
     {
       title: "Cooperative Multi-Agent System",
@@ -483,6 +436,30 @@ const Projects = () => {
       description: "LLM-based automated grading for English and Arabic datasets using RAG architecture. Reduced manual grading time by 80%.",
       tech: ["LLM", "Vision LLM", "PyTorch", "RAG"],
       image: "https://images.unsplash.com/photo-1454165833767-027508496b4c?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "CSV Report Builder",
+      milestone: "Data Automation",
+      metric: "Automated Insights",
+      description: "AI-powered agent processing CSV files to generate comprehensive analytical reports with visual charts and natural language interface.",
+      tech: ["LLM", "LangChain", "FastAPI", "Data Visualization"],
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "Teepublic Design Automation",
+      milestone: "Workflow Optimization",
+      metric: "Batch Processing",
+      description: "Web automation platform for streamlined design uploads with team management, batch processing, and performance monitoring.",
+      tech: ["React", "Node.js", "MongoDB", "Puppeteer"],
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "Real-Time Speech Recognition",
+      milestone: "Signal Processing",
+      metric: "Low Latency",
+      description: "Speech classification system using CNN-LSTM architecture with MFCC feature extraction for real-time audio command recognition.",
+      tech: ["TensorFlow", "MFCC", "LSTM", "CNN", "Python"],
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
     }
   ];
 
@@ -491,7 +468,9 @@ const Projects = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-8">
         <div className="mb-32">
           <span className="font-label text-secondary uppercase tracking-[0.5em] text-xs font-bold block mb-6">Case Studies</span>
-          <h2 className="font-headline text-7xl md:text-9xl font-black tracking-tighter uppercase leading-none">Deployments</h2>
+          <h2 className="font-serif text-5xl md:text-8xl font-light tracking-tight leading-none">
+            <InteractiveText text="Deployments" />
+          </h2>
         </div>
 
         <div className="space-y-40">
@@ -503,11 +482,6 @@ const Projects = () => {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Background Number */}
-              <div className={`absolute -top-20 ${idx % 2 === 0 ? '-right-10' : '-left-10'} opacity-5 pointer-events-none hidden lg:block`}>
-                <span className="font-headline text-[20rem] font-black leading-none">0{idx + 1}</span>
-              </div>
-
               <div className={`flex flex-col lg:flex-row gap-16 items-center ${idx % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
                 <div className="lg:w-7/12 relative group">
                   <div className="absolute -inset-4 bg-primary/10 -skew-x-6 group-hover:skew-x-0 transition-transform duration-700"></div>
@@ -561,27 +535,22 @@ const Projects = () => {
 };
 
 const Education = () => (
-  <section className="py-32 bg-surface relative overflow-hidden">
-    {/* Background Decorative Text */}
-    <div className="absolute -bottom-20 -left-20 opacity-[0.02] pointer-events-none select-none">
-      <span className="font-headline text-[30rem] font-black leading-none uppercase">ACADEMIA</span>
-    </div>
-
+  <section className="py-32 bg-surface relative overflow-hidden" id="education">
     <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-24">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="lg:col-span-5"
+          className="lg:col-span-6"
         >
           <div className="flex items-center gap-4 mb-12">
             <div className="w-12 h-px bg-primary"></div>
             <span className="font-label text-primary uppercase tracking-[0.5em] text-xs font-bold">The Foundation</span>
           </div>
-          <h3 className="font-headline text-5xl md:text-7xl font-black mb-16 uppercase tracking-tighter leading-none">
-            Academic <br />
-            <span className="text-outline-variant/40">Foundation</span>
+          <h3 className="font-serif text-5xl md:text-7xl font-light mb-16 tracking-tight leading-none">
+            <InteractiveText text="Academic" className="block" />
+            <InteractiveText text="Foundation" className="block text-outline-variant/40 italic" />
           </h3>
           
           <div className="space-y-12">
@@ -593,26 +562,27 @@ const Education = () => (
                 <div>
                   <h4 className="font-headline text-2xl font-bold uppercase tracking-tight">B.Sc. in Computer Science & AI</h4>
                   <p className="font-body text-xl text-on-surface-variant mt-2">Banha University | Faculty of Computers and AI</p>
-                  <div className="mt-4 inline-block bg-primary/10 text-primary font-label text-[10px] px-4 py-1 uppercase tracking-[0.2em] font-bold border border-primary/20">
-                    CGPA: 3.5/4 (Very Good)
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <div className="bg-primary/10 text-primary font-label text-[10px] px-4 py-1 uppercase tracking-[0.2em] font-bold border border-primary/20">
+                      CGPA: 3.5/4 (Very Good)
+                    </div>
+                    <div className="bg-secondary/10 text-secondary font-label text-[10px] px-4 py-1 uppercase tracking-[0.2em] font-bold border border-secondary/20">
+                      Grad Project: A+
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-12 border-t border-outline-variant/10">
-              <h4 className="font-headline text-xl font-bold flex items-center gap-3 uppercase tracking-tight mb-8">
-                <Globe className="text-secondary" size={20} />
-                Linguistic Capability
-              </h4>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-surface-container-low p-6 border border-outline-variant/10 group hover:border-secondary/30 transition-colors">
-                  <span className="font-label text-xs uppercase text-secondary tracking-[0.3em] font-bold">Arabic</span>
-                  <span className="block text-[10px] text-outline mt-2 uppercase tracking-widest font-bold">Native Proficiency</span>
+            <div className="group pt-12 border-t border-outline-variant/10">
+              <div className="flex items-start gap-6">
+                <div className="mt-2 w-12 h-12 bg-primary/5 flex items-center justify-center border border-primary/20 group-hover:bg-primary group-hover:text-on-primary transition-all duration-500">
+                  <Layout size={24} />
                 </div>
-                <div className="bg-surface-container-low p-6 border border-outline-variant/10 group hover:border-secondary/30 transition-colors">
-                  <span className="font-label text-xs uppercase text-secondary tracking-[0.3em] font-bold">English</span>
-                  <span className="block text-[10px] text-outline mt-2 uppercase tracking-widest font-bold">Professional Working</span>
+                <div>
+                  <h4 className="font-headline text-2xl font-bold uppercase tracking-tight">React Web Developer (DEPI)</h4>
+                  <p className="font-body text-lg text-on-surface-variant mt-2">Ministry of Communications (MCIT)</p>
+                  <span className="font-label text-[10px] text-outline uppercase tracking-widest mt-2 block">May 2024 – Oct 2024</span>
                 </div>
               </div>
             </div>
@@ -623,39 +593,124 @@ const Education = () => (
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="lg:col-span-7"
+          className="lg:col-span-6"
         >
-          <div className="bg-surface-container-low p-10 md:p-16 border border-outline-variant/10 relative">
-            <div className="absolute top-0 right-0 p-8 opacity-5">
-              <Award size={120} />
-            </div>
-            
-            <h3 className="font-headline text-3xl font-black mb-12 uppercase tracking-tight flex items-center gap-4">
-              <Award className="text-primary" />
-              Technical Specializations
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-              {[
-                { name: "Machine Learning Specialization", issuer: "DeepLearning.AI", year: "2023" },
-                { name: "Natural Language Processing", issuer: "Stanford Online", year: "2023" },
-                { name: "Mathematics for ML", issuer: "DeepLearning.AI", year: "2022" },
-                { name: "Linux Administrator", issuer: "NTI", year: "2024" },
-                { name: "React Web Developer", issuer: "DEPI (MCIT)", year: "2024" },
-                { name: "NDG Linux Unhatched", issuer: "Cisco", year: "2023" }
-              ].map((cert, idx) => (
-                <div key={idx} className="group border-b border-outline-variant/10 pb-6 hover:border-primary/30 transition-colors">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="font-label text-[10px] text-primary uppercase tracking-widest font-bold">{cert.year}</span>
-                    <ExternalLink size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                  <h5 className="font-headline text-lg font-bold group-hover:text-white transition-colors leading-tight">{cert.name}</h5>
-                  <span className="font-label text-[10px] text-outline uppercase tracking-widest mt-2 block">{cert.issuer}</span>
-                </div>
-              ))}
+          <div className="pt-12 lg:pt-32">
+            <h4 className="font-headline text-xl font-bold flex items-center gap-3 uppercase tracking-tight mb-8">
+              <Globe className="text-secondary" size={20} />
+              Linguistic Capability
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-surface-container-low p-6 border border-outline-variant/10 group hover:border-secondary/30 transition-colors">
+                <span className="font-label text-xs uppercase text-secondary tracking-[0.3em] font-bold">Arabic</span>
+                <span className="block text-[10px] text-outline mt-2 uppercase tracking-widest font-bold">Native Proficiency</span>
+              </div>
+              <div className="bg-surface-container-low p-6 border border-outline-variant/10 group hover:border-secondary/30 transition-colors">
+                <span className="font-label text-xs uppercase text-secondary tracking-[0.3em] font-bold">English</span>
+                <span className="block text-[10px] text-outline mt-2 uppercase tracking-widest font-bold">Professional Working</span>
+              </div>
             </div>
           </div>
         </motion.div>
+      </div>
+    </div>
+  </section>
+);
+
+const Certifications = () => (
+  <section className="py-32 bg-surface-container-low relative overflow-hidden" id="certifications">
+    <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+        <div className="relative">
+          <div className="absolute -left-8 top-0 w-1 h-full bg-primary"></div>
+          <span className="font-label text-primary uppercase tracking-[0.4em] text-xs font-bold block mb-4">Accreditations</span>
+          <h2 className="font-serif text-5xl md:text-8xl font-light tracking-tight leading-none">
+            <InteractiveText text="Certifications" />
+          </h2>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {[
+          { name: "Machine Learning Specialization", issuer: "DeepLearning.AI", year: "2023" },
+          { name: "Natural Language Processing", issuer: "Stanford Online", year: "2023" },
+          { name: "Mathematics for ML", issuer: "DeepLearning.AI", year: "2022" },
+          { name: "Linux Administrator", issuer: "NTI", year: "2024" },
+          { name: "React Web Developer", issuer: "DEPI (MCIT)", year: "2024" },
+          { name: "NDG Linux Unhatched", issuer: "Cisco", year: "2023" },
+          { name: "Supervised Machine Learning", issuer: "DeepLearning.AI", year: "2023" },
+          { name: "Advanced Learning Algorithms", issuer: "DeepLearning.AI", year: "2023" }
+        ].map((cert, idx) => (
+          <motion.div 
+            key={idx}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.05 }}
+            className="group bg-surface p-8 border border-outline-variant/10 hover:border-primary/30 transition-all"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <span className="font-label text-[10px] text-primary uppercase tracking-widest font-bold">{cert.year}</span>
+              <Award size={16} className="text-primary/40 group-hover:text-primary transition-colors" />
+            </div>
+            <h5 className="font-headline text-lg font-bold group-hover:text-white transition-colors leading-tight mb-4">{cert.name}</h5>
+            <span className="font-label text-[10px] text-outline uppercase tracking-widest block">{cert.issuer}</span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const OpenSource = () => (
+  <section className="py-32 bg-surface-container-low relative overflow-hidden" id="opensource">
+    <div className="max-w-7xl mx-auto px-6 md:px-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+        <div className="relative">
+          <div className="absolute -left-8 top-0 w-1 h-full bg-secondary"></div>
+          <span className="font-label text-secondary uppercase tracking-[0.4em] text-xs font-bold block mb-4">Community Impact</span>
+          <h2 className="font-serif text-5xl md:text-8xl font-light tracking-tight leading-none">
+            <InteractiveText text="Open Source" />
+          </h2>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {[
+          {
+            name: "Enhanced Soccer Video Analytics (Tryolabs)",
+            desc: "Extended framework for YOLOv5/v8 compatibility. Implemented dynamic label mapping and configurable team color palettes.",
+            tags: ["COMPUTER VISION", "YOLO", "ANALYTICS"]
+          },
+          {
+            name: "Mistral-Common",
+            desc: "Enhanced API performance and developer experience. Standardized response formats and added streaming support.",
+            tags: ["LLM", "API", "STREAMING"]
+          },
+          {
+            name: "MemoryOs Repository",
+            desc: "Fixed environment variable bugs for dynamic model assignment, ensuring consistency in function-level configurations.",
+            tags: ["DEBUGGING", "MLOPS"]
+          },
+          {
+            name: "PageIndex Repository",
+            desc: "Added Docling support, Pydantic JSON validation, and configurable LLM API integration.",
+            tags: ["DATA PIPELINES", "VALIDATION"]
+          }
+        ].map((item, idx) => (
+          <div key={idx} className="bg-surface p-10 border border-outline-variant/10 hover:border-secondary/40 transition-all group">
+            <Github className="text-secondary mb-6 group-hover:scale-110 transition-transform" size={32} />
+            <h4 className="font-headline text-2xl font-bold mb-4 uppercase tracking-tight">{item.name}</h4>
+            <p className="font-body text-on-surface-variant mb-8 leading-relaxed">{item.desc}</p>
+            <div className="flex flex-wrap gap-3">
+              {item.tags.map(tag => (
+                <span key={tag} className="font-label text-[9px] text-outline uppercase tracking-widest border border-outline-variant/20 px-3 py-1">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -665,8 +720,8 @@ const Contact = () => (
   <section className="py-32 bg-surface-container-highest technical-gradient" id="contact">
     <div className="max-w-4xl mx-auto px-6 md:px-8 text-center">
       <span className="font-label text-secondary uppercase tracking-[0.4em] text-sm block mb-8">Connect & Collaborate</span>
-      <h2 className="font-headline text-5xl md:text-8xl font-black tracking-tighter uppercase mb-12 leading-none">
-        Let's build intelligent systems together.
+      <h2 className="font-serif text-5xl md:text-8xl font-light tracking-tight mb-12 leading-none">
+        Let's build <span className="italic text-secondary">intelligent</span> systems together.
       </h2>
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
@@ -737,7 +792,7 @@ const Footer = () => (
   <footer className="w-full border-t border-outline-variant/10 bg-surface text-on-surface-variant font-body">
     <div className="max-w-7xl mx-auto py-16 px-6 md:px-8">
       <div className="flex flex-col md:flex-row justify-between items-center gap-10">
-        <div className="text-2xl font-black text-white font-headline tracking-tighter uppercase">Mohamed Emam</div>
+        <div className="text-2xl font-light text-white font-serif tracking-tight">Mohamed <span className="italic opacity-70">Emam</span></div>
         <div className="text-center text-sm uppercase tracking-widest font-label">
           © 2024 Mohamed Emam. Built with Architectural Precision.
         </div>
@@ -762,7 +817,9 @@ export default function Portfolio() {
         <Skills />
         <Experience />
         <Projects />
+        <OpenSource />
         <Education />
+        <Certifications />
         <Contact />
       </main>
       <Footer />
