@@ -49,10 +49,14 @@ const Navbar = () => (
             {item}
           </a>
         ))}
-        <button className="bg-primary text-on-primary font-headline font-bold px-4 py-2 btn-brutal flex items-center gap-2 text-xs border border-white/10">
-          <Download size={16} />
-          RESUME
-        </button>
+      <a
+        href="/assets/cv/Mohamed_Emam.pdf"  // path to your PDF file
+        download="Mohamed_Emam.pdf"  // name for the downloaded file
+        className="bg-primary text-on-primary font-headline font-bold px-4 py-2 btn-brutal flex items-center gap-2 text-xs border border-white/10"
+      >
+        <Download size={16} />
+        RESUME
+      </a>
       </div>
       <div className="md:hidden">
         <Menu className="text-white" />
