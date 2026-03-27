@@ -194,7 +194,7 @@ const About = () => (
             <div className="absolute -inset-4 bg-primary/20 -skew-y-3 group-hover:skew-y-0 transition-transform duration-500"></div>
             <div className="aspect-[4/5] bg-surface-container-high overflow-hidden rounded-none border-2 border-white/10 relative z-10">
               <img 
-                src="public/assets/images/mohamed_emam.jpg" 
+                src="/assets/images/mohamed_emam.jpg" 
                 alt="Mohamed Emam" 
                 className="w-full h-full object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
                 referrerPolicy="no-referrer"
